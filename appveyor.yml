@@ -59,9 +59,9 @@ clone_folder: *REPO_DIR
 
 # scripts to run before build
 before_build:
-  # git submodules
+  # git submodules, https does not support `--depth 1` :(
   - cd "%REPO_DIR%"
-  - git submodule update --init --remote --depth 1 --recursive
+  - git submodule update --init --remote --recursive
 
   # install NASM
   - cd \

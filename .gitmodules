@@ -1,12 +1,12 @@
-[submodule "lib/vorbis-tools"]
+[submodule "vorbis-tools"]
 	path = lib/vorbis-tools
-	url = git://git.xiph.org/vorbis-tools.git
-[submodule "lib/ogg"]
+	url = https://git.xiph.org/vorbis-tools.git
+[submodule "ogg"]
 	path = lib/ogg
-	url = git://git.xiph.org/ogg.git
-[submodule "lib/vorbis"]
+	url = https://git.xiph.org/ogg.git
+[submodule "vorbis"]
 	path = lib/vorbis
-	url = git://git.xiph.org/vorbis.git
-[submodule "lib/flac"]
+	url = https://git.xiph.org/vorbis.git
+[submodule "flac"]
 	path = lib/flac
-	url = git://git.xiph.org/flac.git
+	url = https://git.xiph.org/flac.git
