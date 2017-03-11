@@ -14,10 +14,10 @@ version: '{branch}-{build}'
 # Do not build on tags (GitHub only)
 skip_tags: true
 
-# avoid malicious attempt via pull requests
+# manual mode
 branches:
-  only:
-    - master
+  except:
+    - /.*/
 
 
 #---------------------------------#
@@ -31,23 +31,23 @@ os: Visual Studio 2017
 environment:
   REPO_DIR: &REPO_DIR c:\project  # directory created by appveyor
 
-  NASM_URL: http://www.nasm.us/pub/nasm/releasebuilds/2.12.01/win32/nasm-2.12.01-win32.zip
+  NASM_URL: http://www.nasm.us/pub/nasm/releasebuilds/2.12.02/win64/nasm-2.12.02-win64.zip
 
   OGG_SOL_FILE: libogg_static.sln
-  OGG_MSBUILD_CMD_X86: /m /p:Configuration=Release;Platform=Win32
-  OGG_MSBUILD_CMD_X64: /m /p:Configuration=Release;Platform=x64
+  OGG_MSBUILD_CMD_X86: /maxcpucount /property:Configuration=Release,Platform=Win32
+  OGG_MSBUILD_CMD_X64: /maxcpucount /property:Configuration=Release,Platform=x64
 
   VORBIS_SOL_FILE: vorbis_static.sln
-  VORBIS_MSBUILD_CMD_X86: /m /p:Configuration=Release;Platform=Win32 /t:libvorbisfile
-  VORBIS_MSBUILD_CMD_X64: /m /p:Configuration=Release;Platform=x64   /t:libvorbisfile
+  VORBIS_MSBUILD_CMD_X86: /maxcpucount /property:Configuration=Release,Platform=Win32 /target:libvorbisfile
+  VORBIS_MSBUILD_CMD_X64: /maxcpucount /property:Configuration=Release,Platform=x64   /target:libvorbisfile
 
   FLAC_SOL_FILE: libFLAC_static.sln
-  FLAC_MSBUILD_CMD_X86: /m /p:Configuration=Release;Platform=x86
-  FLAC_MSBUILD_CMD_X64: /m /p:Configuration=Release;Platform=x64
+  FLAC_MSBUILD_CMD_X86: /maxcpucount /property:Configuration=Release,Platform=x86
+  FLAC_MSBUILD_CMD_X64: /maxcpucount /property:Configuration=Release,Platform=x64
 
   VORBIS-TOOLS_SOL_FILE: vorbis-tools.sln
-  VORBIS-TOOLS_MSBUILD_CMD_X86: /m /p:Configuration=Release;Platform=Win32
-  VORBIS-TOOLS_MSBUILD_CMD_X64: /m /p:Configuration=Release;Platform=x64
+  VORBIS-TOOLS_MSBUILD_CMD_X86: /maxcpucount /property:Configuration=Release,Platform=Win32
+  VORBIS-TOOLS_MSBUILD_CMD_X64: /maxcpucount /property:Configuration=Release,Platform=x64
 
 # clone directory
 clone_folder: *REPO_DIR
