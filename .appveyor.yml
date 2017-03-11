@@ -25,8 +25,8 @@ branches:
 #---------------------------------#
 
 # environment variables
-# build system info: http://www.appveyor.com/docs/installed-software
-os: Visual Studio 2015
+# build system info: https://www.appveyor.com/docs/build-environment/#pre-installed-software
+os: Visual Studio 2017
 
 environment:
   REPO_DIR: &REPO_DIR c:\project  # directory created by appveyor
@@ -73,17 +73,17 @@ before_build:
 
   # prepare ogg
   - cd "%REPO_DIR%"
-  - if exist "lib\ogg\win32\VS2015" (rd /S /Q "lib\ogg\win32\VS2015")
-  - move /Y "src\ogg\VS2015" "lib\ogg\win32"
-  - msbuild "lib\ogg\win32\VS2015\%OGG_SOL_FILE%" %OGG_MSBUILD_CMD_X86%
-  - msbuild "lib\ogg\win32\VS2015\%OGG_SOL_FILE%" %OGG_MSBUILD_CMD_X64%
+  - if exist "lib\ogg\win32\VS2017" (rd /S /Q "lib\ogg\win32\VS2017")
+  - move /Y "src\ogg\VS2017" "lib\ogg\win32"
+  - msbuild "lib\ogg\win32\VS2017\%OGG_SOL_FILE%" %OGG_MSBUILD_CMD_X86%
+  - msbuild "lib\ogg\win32\VS2017\%OGG_SOL_FILE%" %OGG_MSBUILD_CMD_X64%
 
   # prepare vorbis
   - cd "%REPO_DIR%"
-  - if exist "lib\vorbis\win32\VS2015" (rd /S /Q "lib\vorbis\win32\VS2015")
-  - move /Y "src\vorbis\VS2015" "lib\vorbis\win32"
-  - msbuild "lib\vorbis\win32\VS2015\%VORBIS_SOL_FILE%" %VORBIS_MSBUILD_CMD_X86%
-  - msbuild "lib\vorbis\win32\VS2015\%VORBIS_SOL_FILE%" %VORBIS_MSBUILD_CMD_X64%
+  - if exist "lib\vorbis\win32\VS2017" (rd /S /Q "lib\vorbis\win32\VS2017")
+  - move /Y "src\vorbis\VS2017" "lib\vorbis\win32"
+  - msbuild "lib\vorbis\win32\VS2017\%VORBIS_SOL_FILE%" %VORBIS_MSBUILD_CMD_X86%
+  - msbuild "lib\vorbis\win32\VS2017\%VORBIS_SOL_FILE%" %VORBIS_MSBUILD_CMD_X64%
 
     # prepare flac
   - cd "%REPO_DIR%"
@@ -94,18 +94,18 @@ before_build:
 # to run your custom scripts instead of automatic MSBuild
 build_script:
   - cd "%REPO_DIR%"
-  - if exist "lib\vorbis-tools\win32\VS2015" (rd /S /Q "lib\vorbis-tools\win32\VS2015")
-  - move /Y "src\vorbis-tools\VS2015" "lib\vorbis-tools\win32"
-  - msbuild "lib\vorbis-tools\win32\VS2015\%VORBIS-TOOLS_SOL_FILE%" %VORBIS-TOOLS_MSBUILD_CMD_X86%
-  - msbuild "lib\vorbis-tools\win32\VS2015\%VORBIS-TOOLS_SOL_FILE%" %VORBIS-TOOLS_MSBUILD_CMD_X64%
+  - if exist "lib\vorbis-tools\win32\VS2017" (rd /S /Q "lib\vorbis-tools\win32\VS2017")
+  - move /Y "src\vorbis-tools\VS2017" "lib\vorbis-tools\win32"
+  - msbuild "lib\vorbis-tools\win32\VS2017\%VORBIS-TOOLS_SOL_FILE%" %VORBIS-TOOLS_MSBUILD_CMD_X86%
+  - msbuild "lib\vorbis-tools\win32\VS2017\%VORBIS-TOOLS_SOL_FILE%" %VORBIS-TOOLS_MSBUILD_CMD_X64%
 
 # scripts to run before deployment
 after_build:
   # prepare for artifacts packaging
   - 'cd "%REPO_DIR%"'
   - 'mkdir "win32" "x64"'
-  - 'copy "lib\vorbis-tools\win32\VS2015\Release\*.exe" "win32"'
-  - 'copy "lib\vorbis-tools\win32\VS2015\x64\Release\*.exe" "x64"'
+  - 'copy "lib\vorbis-tools\win32\VS2017\Release\*.exe" "win32"'
+  - 'copy "lib\vorbis-tools\win32\VS2017\x64\Release\*.exe" "x64"'
   - '7z a -mx9 "vorbis-tools.7z" "Readme.md" "win32" "x64"'  # the artifact must reside at the source repo root
   - 'powershell -Command "& { (Get-FileHash -Algorithm SHA1 "vorbis-tools.7z").hash; }" > "vorbis-tools.7z.sha1"'
 
