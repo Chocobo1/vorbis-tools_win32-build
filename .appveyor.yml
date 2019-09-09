@@ -25,13 +25,13 @@ branches:
 #---------------------------------#
 
 # environment variables
-# build system info: https://www.appveyor.com/docs/build-environment/#pre-installed-software
-os: Visual Studio 2017
+# build system info: https://www.appveyor.com/docs/windows-images-software/
+os: Visual Studio 2019
 
 environment:
   REPO_DIR: &REPO_DIR c:\project  # directory created by appveyor
 
-  NASM_URL: http://www.nasm.us/pub/nasm/releasebuilds/2.12.02/win64/nasm-2.12.02-win64.zip
+  NASM_URL: https://www.nasm.us/pub/nasm/releasebuilds/2.14.02/win64/nasm-2.14.02-win64.zip
 
   OGG_SOL_FILE: libogg_static.sln
   OGG_MSBUILD_CMD_X86: /maxcpucount /property:Configuration=Release,Platform=Win32
@@ -107,7 +107,7 @@ after_build:
   - 'copy "lib\vorbis-tools\win32\VS2017\Release\*.exe" "win32"'
   - 'copy "lib\vorbis-tools\win32\VS2017\x64\Release\*.exe" "x64"'
   - '7z a -mx9 "vorbis-tools.7z" "Readme.md" "win32" "x64"'  # the artifact must reside at the source repo root
-  - 'powershell -Command "& { (Get-FileHash -Algorithm SHA1 "vorbis-tools.7z").hash; }" > "vorbis-tools.7z.sha1"'
+  - 'powershell -Command "& { (Get-FileHash -Algorithm SHA256 "vorbis-tools.7z").hash; }" > "vorbis-tools.7z.sha256"'
 
 
 #---------------------------------#
@@ -125,5 +125,5 @@ test: off
 artifacts:
   - path: vorbis-tools.7z
     name: exe
-  - path: vorbis-tools.7z.sha1
+  - path: vorbis-tools.7z.sha256
     name: checksum
