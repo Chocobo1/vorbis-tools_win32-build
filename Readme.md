@@ -18,13 +18,13 @@
   | [flac][flac-link], [(mirror)][flac-mirror-link]                         | git master |
 
   [vorbis-tools-link]: https://git.xiph.org/?p=vorbis-tools.git
-  [vorbis-tools-mirror-link]: https://github.com/xiph/vorbis-tools
+  [vorbis-tools-mirror-link]: https://gitlab.xiph.org/xiph/vorbis-tools
   [vorbis-link]: https://git.xiph.org/?p=vorbis.git
-  [vorbis-mirror-link]: https://github.com/xiph/vorbis
+  [vorbis-mirror-link]: https://gitlab.xiph.org/xiph/vorbis
   [ogg-link]: https://git.xiph.org/?p=ogg.git
-  [ogg-mirror-link]: https://github.com/xiph/ogg
+  [ogg-mirror-link]: https://gitlab.xiph.org/xiph/ogg
   [flac-link]: https://git.xiph.org/?p=flac.git
-  [flac-mirror-link]: https://github.com/xiph/flac
+  [flac-mirror-link]: https://gitlab.xiph.org/xiph/flac
 
 
 ### [Download page](https://github.com/Chocobo1/vorbis-tools_win32-build/releases)
