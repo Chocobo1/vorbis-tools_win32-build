@@ -107,7 +107,7 @@ after_build:
   - 'copy "lib\vorbis-tools\win32\VS2017\Release\*.exe" "win32"'
   - 'copy "lib\vorbis-tools\win32\VS2017\x64\Release\*.exe" "x64"'
   - '7z a -mx9 "vorbis-tools.7z" "Readme.md" "win32" "x64"'  # the artifact must reside at the source repo root
-  - 'powershell -Command "& { (Get-FileHash -Algorithm SHA256 "vorbis-tools.7z").hash; }" > "vorbis-tools.7z.sha256"'
+  - 'powershell -Command "& { $hash = (Get-FileHash -Algorithm SHA256 "vorbis-tools.7z").hash.ToString().toLower(); Write-Host $hash " *vorbis-tools.7z"; }" > "vorbis-tools.7z.sha256"'
 
 
 #---------------------------------#
