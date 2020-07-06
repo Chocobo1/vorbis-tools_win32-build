@@ -31,7 +31,7 @@ os: Visual Studio 2019
 environment:
   REPO_DIR: &REPO_DIR c:\project  # directory created by appveyor
 
-  NASM_URL: https://www.nasm.us/pub/nasm/releasebuilds/2.14.02/win64/nasm-2.14.02-win64.zip
+  NASM_URL: https://www.nasm.us/pub/nasm/releasebuilds/2.15.02/win64/nasm-2.15.02-win64.zip
 
   OGG_SOL_FILE: libogg_static.sln
   OGG_MSBUILD_CMD_X86: /maxcpucount /property:Configuration=Release,Platform=Win32
