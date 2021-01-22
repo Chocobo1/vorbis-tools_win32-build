@@ -150,13 +150,16 @@
     <ClCompile Include="..\..\..\ogginfo\codec_kate.c" />
     <ClCompile Include="..\..\..\ogginfo\codec_opus.c" />
     <ClCompile Include="..\..\..\ogginfo\codec_other.c" />
+    <ClCompile Include="..\..\..\ogginfo\codec_skeleton.c" />
     <ClCompile Include="..\..\..\ogginfo\codec_speex.c" />
     <ClCompile Include="..\..\..\ogginfo\codec_theora.c" />
     <ClCompile Include="..\..\..\ogginfo\codec_vorbis.c" />
+    <ClCompile Include="..\..\..\ogginfo\metadata.c" />
     <ClCompile Include="..\..\..\ogginfo\ogginfo2.c" />
     <ClCompile Include="..\..\..\ogginfo\theora.c" />
+    <ClCompile Include="..\..\..\share\base64.c" />
     <ClCompile Include="..\..\..\share\getopt.c" />
-    <ClCompile Include="..\..\..\share\getopt1.c" />
+    <ClCompile Include="..\..\..\share\picture.c" />
     <ClCompile Include="..\..\..\share\utf8.c" />
   </ItemGroup>
   <ItemGroup>
