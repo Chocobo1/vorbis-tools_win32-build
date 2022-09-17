@@ -26,23 +26,29 @@ branches:
 
 # environment variables
 # build system info: https://www.appveyor.com/docs/windows-images-software/
-os: Visual Studio 2019
+os: Visual Studio 2022
 
 environment:
   REPO_DIR: &REPO_DIR c:\project  # directory created by appveyor
 
   NASM_URL: https://www.nasm.us/pub/nasm/releasebuilds/2.15.05/win64/nasm-2.15.05-win64.zip
 
-  OGG_SOL_FILE: libogg_static.sln
-  OGG_MSBUILD_CMD_X86: /maxcpucount /property:Configuration=Release,Platform=Win32
-  OGG_MSBUILD_CMD_X64: /maxcpucount /property:Configuration=Release,Platform=x64
+  CMAKE_GENERATOR_X86: -G "Visual Studio 17 2022" -A "Win32"
+  CMAKE_GENERATOR_X64: -G "Visual Studio 17 2022" -A "x64"
+  CMAKE_COMMON_DEFINES: -DCMAKE_TOOLCHAIN_FILE="%REPO_DIR%\src\msvc_flags.cmake"
+
+  OGG_SOL_FILE: ogg.sln
+  OGG_MSBUILD_CMD_X86: /maxcpucount /property:Configuration=Release,Platform=Win32 /target:ogg
+  OGG_MSBUILD_CMD_X64: /maxcpucount /property:Configuration=Release,Platform=x64   /target:ogg
 
   VORBIS_SOL_FILE: vorbis_static.sln
   VORBIS_MSBUILD_CMD_X86: /maxcpucount /property:Configuration=Release,Platform=Win32 /target:libvorbisfile
   VORBIS_MSBUILD_CMD_X64: /maxcpucount /property:Configuration=Release,Platform=x64   /target:libvorbisfile
 
-  FLAC_SOL_FILE: libFLAC_static.sln
-  FLAC_MSBUILD_CMD_X86: /maxcpucount /property:Configuration=Release,Platform=x86
+  FLAC_SOL_FILE: src\libFLAC++\FLAC++.vcxproj
+  FLAC_CMAKE_X86: -DOGG_INCLUDE_DIR="%REPO_DIR%\lib\ogg\include" -DOGG_LIBRARY="%REPO_DIR%\lib\ogg\_build\Win32\Release\ogg.lib"
+  FLAC_CMAKE_X64: -DOGG_INCLUDE_DIR="%REPO_DIR%\lib\ogg\include" -DOGG_LIBRARY="%REPO_DIR%\lib\ogg\_build\x64\Release\ogg.lib"
+  FLAC_MSBUILD_CMD_X86: /maxcpucount /property:Configuration=Release,Platform=Win32
   FLAC_MSBUILD_CMD_X64: /maxcpucount /property:Configuration=Release,Platform=x64
 
   VORBIS-TOOLS_SOL_FILE: vorbis-tools.sln
@@ -72,11 +78,16 @@ before_build:
   - nasm -v
 
   # prepare ogg
-  - cd "%REPO_DIR%"
-  - if exist "lib\ogg\win32\VS2017" (rd /S /Q "lib\ogg\win32\VS2017")
-  - move /Y "src\ogg\VS2017" "lib\ogg\win32"
-  - msbuild "lib\ogg\win32\VS2017\%OGG_SOL_FILE%" %OGG_MSBUILD_CMD_X86%
-  - msbuild "lib\ogg\win32\VS2017\%OGG_SOL_FILE%" %OGG_MSBUILD_CMD_X64%
+  - cd "%REPO_DIR%\lib\ogg"
+  - mkdir "_build" && cd "_build"
+  - mkdir "Win32" && cd "Win32"
+  - cmake %CMAKE_GENERATOR_X86% %CMAKE_COMMON_DEFINES% ..\..\
+  - msbuild %OGG_SOL_FILE% %OGG_MSBUILD_CMD_X86%
+  - cd ..
+  - mkdir "x64" && cd "x64"
+  - cmake %CMAKE_GENERATOR_X64% %CMAKE_COMMON_DEFINES% ..\..\
+  - msbuild %OGG_SOL_FILE% %OGG_MSBUILD_CMD_X64%
+  - cd ..
 
   # prepare vorbis
   - cd "%REPO_DIR%"
@@ -85,15 +96,22 @@ before_build:
   - msbuild "lib\vorbis\win32\VS2017\%VORBIS_SOL_FILE%" %VORBIS_MSBUILD_CMD_X86%
   - msbuild "lib\vorbis\win32\VS2017\%VORBIS_SOL_FILE%" %VORBIS_MSBUILD_CMD_X64%
 
-    # prepare flac
-  - cd "%REPO_DIR%"
-  - move /Y "src\flac\libFLAC\*" "lib\flac\src\libFLAC"
-  - msbuild "lib\flac\src\libFLAC\%FLAC_SOL_FILE%" %FLAC_MSBUILD_CMD_X86%
-  - msbuild "lib\flac\src\libFLAC\%FLAC_SOL_FILE%" %FLAC_MSBUILD_CMD_X64%
+  # prepare flac
+  - cd "%REPO_DIR%\lib\flac"
+  - mkdir "_build" && cd "_build"
+  - mkdir "Win32" && cd "Win32"
+  - cmake %CMAKE_GENERATOR_X86% %CMAKE_COMMON_DEFINES% %FLAC_CMAKE_X86% ..\..\
+  - msbuild %FLAC_SOL_FILE% %FLAC_MSBUILD_CMD_X86%
+  - cd ..
+  - mkdir "x64" && cd "x64"
+  - cmake %CMAKE_GENERATOR_X64% %CMAKE_COMMON_DEFINES% %FLAC_CMAKE_X64% ..\..\
+  - msbuild %FLAC_SOL_FILE% %FLAC_MSBUILD_CMD_X64%
+  - cd ..
 
 # to run your custom scripts instead of automatic MSBuild
 build_script:
   - cd "%REPO_DIR%"
+  - ps: (Get-Content 'lib\vorbis-tools\share\picture.c') | ForEach-Object { $_ -replace 'flac_picture_parse_eat\(void \*data', 'flac_picture_parse_eat(char *data' } | Set-Content 'lib\vorbis-tools\share\picture.c'
   - if exist "lib\vorbis-tools\win32\VS2017" (rd /S /Q "lib\vorbis-tools\win32\VS2017")
   - move /Y "src\vorbis-tools\VS2017" "lib\vorbis-tools\win32"
   - msbuild "lib\vorbis-tools\win32\VS2017\%VORBIS-TOOLS_SOL_FILE%" %VORBIS-TOOLS_MSBUILD_CMD_X86%
