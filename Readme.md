@@ -17,13 +17,13 @@
   | [ogg][ogg-link], [(mirror)][ogg-mirror-link]                            | git master |
   | [flac][flac-link], [(mirror)][flac-mirror-link]                         | git master |
 
-  [vorbis-tools-link]: https://git.xiph.org/?p=vorbis-tools.git
-  [vorbis-tools-mirror-link]: https://gitlab.xiph.org/xiph/vorbis-tools
-  [vorbis-link]: https://git.xiph.org/?p=vorbis.git
-  [vorbis-mirror-link]: https://gitlab.xiph.org/xiph/vorbis
-  [ogg-link]: https://git.xiph.org/?p=ogg.git
-  [ogg-mirror-link]: https://gitlab.xiph.org/xiph/ogg
-  [flac-link]: https://git.xiph.org/?p=flac.git
+  [vorbis-tools-link]: https://gitlab.xiph.org/xiph/vorbis-tools
+  [vorbis-tools-mirror-link]: https://github.com/xiph/vorbis-tools
+  [vorbis-link]: https://gitlab.xiph.org/xiph/vorbis
+  [vorbis-mirror-link]: https://github.com/xiph/vorbis
+  [ogg-link]: https://gitlab.xiph.org/xiph/ogg
+  [ogg-mirror-link]: https://github.com/xiph/ogg
+  [flac-link]: https://github.com/xiph/flac
   [flac-mirror-link]: https://gitlab.xiph.org/xiph/flac
 
 
