@@ -9,4 +9,4 @@
 	url = https://gitlab.xiph.org/xiph/vorbis.git
 [submodule "flac"]
 	path = lib/flac
-	url = https://gitlab.xiph.org/xiph/flac.git
+	url = https://github.com/xiph/flac.git
