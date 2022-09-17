@@ -114,6 +114,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <AdditionalOptions>/Gw %(AdditionalOptions)</AdditionalOptions>
       <EnableEnhancedInstructionSet>NoExtensions</EnableEnhancedInstructionSet>
+      <ControlFlowGuard>Guard</ControlFlowGuard>
     </ClCompile>
     <Link>
       <AdditionalDependencies>ogg.lib;libvorbis_static.lib;FLAC.lib;stream_decoder.obj;metadata_object.obj;%(AdditionalDependencies)</AdditionalDependencies>
@@ -134,6 +135,7 @@
       <WarningLevel>Level3</WarningLevel>
       <FloatingPointModel>Fast</FloatingPointModel>
       <AdditionalOptions>/Gw %(AdditionalOptions)</AdditionalOptions>
+      <ControlFlowGuard>Guard</ControlFlowGuard>
     </ClCompile>
     <Link>
       <AdditionalDependencies>ogg.lib;libvorbis_static.lib;FLAC.lib;stream_decoder.obj;metadata_object.obj;%(AdditionalDependencies)</AdditionalDependencies>
