@@ -7,7 +7,6 @@
 ### <a href="https://xiph.org/vorbis/"><img src="https://wiki.xiph.org/images/8/8b/Many_Fish_Logo.svg" alt="LAME logo" height="160"></a>
 * x86 & x64 executables for Windows
 * Portable executables, no external dependencies (dlls)
-* Can run in WindowsXP
 * Source code unmodified
 
   | Project                                                                 | Version    |
