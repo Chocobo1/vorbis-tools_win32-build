@@ -31,7 +31,7 @@ os: Visual Studio 2022
 environment:
   REPO_DIR: &REPO_DIR c:\project  # directory created by appveyor
 
-  NASM_URL: https://www.nasm.us/pub/nasm/releasebuilds/2.15.05/win64/nasm-2.15.05-win64.zip
+  NASM_URL: https://www.nasm.us/pub/nasm/releasebuilds/2.16.03/win64/nasm-2.16.03-win64.zip
 
   CMAKE_GENERATOR_X86: -G "Visual Studio 17 2022" -A "Win32"
   CMAKE_GENERATOR_X64: -G "Visual Studio 17 2022" -A "x64"
@@ -46,8 +46,8 @@ environment:
   VORBIS_MSBUILD_CMD_X64: /maxcpucount /property:Configuration=Release,Platform=x64   /target:libvorbisfile
 
   FLAC_SOL_FILE: src\libFLAC++\FLAC++.vcxproj
-  FLAC_CMAKE_X86: -DOGG_INCLUDE_DIR="%REPO_DIR%\lib\ogg\include" -DOGG_LIBRARY="%REPO_DIR%\lib\ogg\_build\Win32\Release\ogg.lib"
-  FLAC_CMAKE_X64: -DOGG_INCLUDE_DIR="%REPO_DIR%\lib\ogg\include" -DOGG_LIBRARY="%REPO_DIR%\lib\ogg\_build\x64\Release\ogg.lib"
+  FLAC_CMAKE_X86: -DINSTALL_MANPAGES=OFF -DOGG_INCLUDE_DIR="%REPO_DIR%\lib\ogg\include" -DOGG_LIBRARY="%REPO_DIR%\lib\ogg\_build\Win32\Release\ogg.lib"
+  FLAC_CMAKE_X64: -DINSTALL_MANPAGES=OFF -DOGG_INCLUDE_DIR="%REPO_DIR%\lib\ogg\include" -DOGG_LIBRARY="%REPO_DIR%\lib\ogg\_build\x64\Release\ogg.lib"
   FLAC_MSBUILD_CMD_X86: /maxcpucount /property:Configuration=Release,Platform=Win32
   FLAC_MSBUILD_CMD_X64: /maxcpucount /property:Configuration=Release,Platform=x64
 
