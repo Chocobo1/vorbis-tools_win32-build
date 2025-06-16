@@ -41,11 +41,13 @@ environment:
   OGG_MSBUILD_CMD_X86: /maxcpucount /property:Configuration=Release,Platform=Win32 /target:ogg
   OGG_MSBUILD_CMD_X64: /maxcpucount /property:Configuration=Release,Platform=x64   /target:ogg
 
-  VORBIS_SOL_FILE: vorbis_static.sln
-  VORBIS_MSBUILD_CMD_X86: /maxcpucount /property:Configuration=Release,Platform=Win32 /target:libvorbisfile
-  VORBIS_MSBUILD_CMD_X64: /maxcpucount /property:Configuration=Release,Platform=x64   /target:libvorbisfile
+  VORBIS_SOL_FILE: vorbis.sln
+  VORBIS_CMAKE_X86: -DOGG_INCLUDE_DIR="%REPO_DIR%\lib\ogg\include" -DOGG_LIBRARY="%REPO_DIR%\lib\ogg\_build\Win32\Release\ogg.lib"
+  VORBIS_CMAKE_X64: -DOGG_INCLUDE_DIR="%REPO_DIR%\lib\ogg\include" -DOGG_LIBRARY="%REPO_DIR%\lib\ogg\_build\x64\Release\ogg.lib"
+  VORBIS_MSBUILD_CMD_X86: /maxcpucount /property:Configuration=Release,Platform=Win32 /target:vorbisfile
+  VORBIS_MSBUILD_CMD_X64: /maxcpucount /property:Configuration=Release,Platform=x64 /target:vorbisfile
 
-  FLAC_SOL_FILE: src\libFLAC++\FLAC++.vcxproj
+  FLAC_SOL_FILE: src\libFLAC\FLAC.vcxproj
   FLAC_CMAKE_X86: -DINSTALL_MANPAGES=OFF -DOGG_INCLUDE_DIR="%REPO_DIR%\lib\ogg\include" -DOGG_LIBRARY="%REPO_DIR%\lib\ogg\_build\Win32\Release\ogg.lib"
   FLAC_CMAKE_X64: -DINSTALL_MANPAGES=OFF -DOGG_INCLUDE_DIR="%REPO_DIR%\lib\ogg\include" -DOGG_LIBRARY="%REPO_DIR%\lib\ogg\_build\x64\Release\ogg.lib"
   FLAC_MSBUILD_CMD_X86: /maxcpucount /property:Configuration=Release,Platform=Win32
@@ -90,11 +92,16 @@ before_build:
   - cd ..
 
   # prepare vorbis
-  - cd "%REPO_DIR%"
-  - if exist "lib\vorbis\win32\VS2017" (rd /S /Q "lib\vorbis\win32\VS2017")
-  - move /Y "src\vorbis\VS2017" "lib\vorbis\win32"
-  - msbuild "lib\vorbis\win32\VS2017\%VORBIS_SOL_FILE%" %VORBIS_MSBUILD_CMD_X86%
-  - msbuild "lib\vorbis\win32\VS2017\%VORBIS_SOL_FILE%" %VORBIS_MSBUILD_CMD_X64%
+  - cd "%REPO_DIR%\lib\vorbis"
+  - mkdir "_build" && cd "_build"
+  - mkdir "Win32" && cd "Win32"
+  - cmake %CMAKE_GENERATOR_X86% %CMAKE_COMMON_DEFINES% %VORBIS_CMAKE_X86% ..\..\
+  - msbuild %VORBIS_SOL_FILE% %VORBIS_MSBUILD_CMD_X86%
+  - cd ..
+  - mkdir "x64" && cd "x64"
+  - cmake %CMAKE_GENERATOR_X64% %CMAKE_COMMON_DEFINES% %VORBIS_CMAKE_X64% ..\..\
+  - msbuild %VORBIS_SOL_FILE% %VORBIS_MSBUILD_CMD_X64%
+  - cd ..
 
   # prepare flac
   - cd "%REPO_DIR%\lib\flac"
@@ -112,6 +119,8 @@ before_build:
 build_script:
   - cd "%REPO_DIR%"
   - ps: (Get-Content 'lib\vorbis-tools\share\picture.c') | ForEach-Object { $_ -replace 'flac_picture_parse_eat\(void \*data', 'flac_picture_parse_eat(char *data' } | Set-Content 'lib\vorbis-tools\share\picture.c'
+  # workaround for https://gitlab.xiph.org/xiph/vorbis-tools/-/issues/2329
+  - ps: Add-Content -Path 'lib\vorbis-tools\share\utf8.c' -Value 'void convert_free_charset(void) {}'
   - if exist "lib\vorbis-tools\win32\VS2017" (rd /S /Q "lib\vorbis-tools\win32\VS2017")
   - move /Y "src\vorbis-tools\VS2017" "lib\vorbis-tools\win32"
   - msbuild "lib\vorbis-tools\win32\VS2017\%VORBIS-TOOLS_SOL_FILE%" %VORBIS-TOOLS_MSBUILD_CMD_X86%
